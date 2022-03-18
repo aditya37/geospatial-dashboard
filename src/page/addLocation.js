@@ -1,12 +1,12 @@
-import {
-  Form,
-  Button,
-  FormSelect,
-} from "react-bootstrap";
+import React, { useState } from "react";
+import { Form, Button, FormSelect } from "react-bootstrap";
 import Header from "../component/header.js";
 import Sidebar from "../component/sidebar.js";
-import Map from "../component/map.js";
+import EditableMap from "../component/editablemap.js";
 const AddLocation = () => {
+  const [getLocation, setLocation] = useState({
+    geometry: "",
+  });
   return (
     <>
       <div className="hold-transition layout-fixed layout-navbar-fixed layout-footer-fixed">
@@ -71,6 +71,7 @@ const AddLocation = () => {
                               style={{
                                 marginTop: "10px",
                               }}
+                              value={JSON.stringify(getLocation.geometry.geometry)}
                               disabled
                             />
                             {/* button */}
@@ -86,7 +87,15 @@ const AddLocation = () => {
                         </div>
                         {/* colom map */}
                         <div className="col-md-8">
-                          <Map height="60vh" />
+                          <EditableMap
+                            height="60vh"
+                            onCreated={(e) => {
+                              setLocation({
+                                ...getLocation,
+                                geometry: e.layer.toGeoJSON(),
+                              });
+                            }}
+                          />
                         </div>
                       </div>
                     </div>

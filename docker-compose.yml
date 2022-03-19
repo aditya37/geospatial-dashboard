@@ -1,0 +1,12 @@
+version: '3.3'
+services:
+  frontend_geospatial_project:
+    container_name: "frontend-eospatial-project"
+    image: frontend/geospatial-project:0.0.5
+    build:
+      dockerfile: Dockerfile
+      context: .
+    ports:
+      - "7776:7776"
+    environment:
+      - NODE_ENV=production

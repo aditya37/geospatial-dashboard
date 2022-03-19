@@ -7,6 +7,16 @@ const AddLocation = () => {
   const [getLocation, setLocation] = useState({
     geometry: "",
   });
+  const [showGeofence, hideGoefence] = useState(false);
+
+  const _checkboxOnChange = (e) => {
+    if (e.target.checked == false) {
+      hideGoefence(false);
+    } else {
+      hideGoefence(true);
+    }
+  };
+
   return (
     <>
       <div className="hold-transition layout-fixed layout-navbar-fixed layout-footer-fixed">
@@ -44,7 +54,7 @@ const AddLocation = () => {
                                   Type
                                 </Form.Label>
                                 <FormSelect>
-                                  <option>Location Type</option>
+                                  <option>....</option>
                                 </FormSelect>
                               </div>
                               <div className="col">
@@ -60,7 +70,7 @@ const AddLocation = () => {
                                   Province
                                 </Form.Label>
                                 <FormSelect>
-                                  <option>Province...</option>
+                                  <option>Province</option>
                                 </FormSelect>
                               </div>
                             </div>
@@ -71,9 +81,53 @@ const AddLocation = () => {
                               style={{
                                 marginTop: "10px",
                               }}
-                              value={JSON.stringify(getLocation.geometry.geometry)}
+                              value={JSON.stringify(
+                                getLocation.geometry.geometry
+                              )}
                               disabled
                             />
+
+                            {/* geofencing form start*/}
+                            <div className="mb-3" style={{ marginTop: "12px" }}>
+                              <Form.Check
+                                type="checkbox"
+                                label="Geofencing Area"
+                                onChange={_checkboxOnChange}
+                              />
+                              <div
+                                className="form-row"
+                                hidden={showGeofence == false ? true : false}
+                              >
+                                <div className="col" style={{marginTop:"10px"}}>
+                                  <Form.Label>
+                                    <small>Geofence Type</small>
+                                  </Form.Label>
+                                  <FormSelect>
+                                    <option>Tourist</option>
+                                    <option>Logistic</option>
+                                    <option>Attendance</option>
+                                  </FormSelect>
+                                  {/* row geofencing detect start*/}
+                                  <div className="row" style={{marginTop:"10px"}}>
+                                    <Form.Label>
+                                      <small>Geofencing Detect</small>
+                                    </Form.Label>
+                                    <div className="col">
+                                      <Form.Check label="Enter" />
+                                    </div>
+                                    <div className="col">
+                                      <Form.Check label="Inside" />
+                                    </div>
+                                    <div className="col">
+                                      <Form.Check label="Exit" />
+                                    </div>
+                                  </div>
+                                  {/* row geofencing detect stop*/}
+                                </div>
+                              </div>
+                            </div>
+                            {/* geofencing form end*/}
+
                             {/* button */}
                             <Button
                               className="col"
@@ -91,7 +145,6 @@ const AddLocation = () => {
                             height="60vh"
                             onCreated={(e) => {
                               setLocation({
-                                ...getLocation,
                                 geometry: e.layer.toGeoJSON(),
                               });
                             }}

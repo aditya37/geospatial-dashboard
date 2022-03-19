@@ -13,7 +13,7 @@ const EditableMap = (props) => {
             height: props.height,
           }}
           center={[52.6376, -1.135171]}
-          zoom={12}
+          zoom={30}
           scrollWheelZoom={false}
         >
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />

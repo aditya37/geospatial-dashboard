@@ -14,6 +14,10 @@ const fetchLocationTypePayload = {
   },
 };
 
+const https = new https.Agent({
+  rejectUnauthorized: true
+})
+
 export const getLocationType = () => (dispatch) => {
   dispatch({
     type: PROCESS_FETCH_LOCATION_TYPE,
@@ -27,6 +31,7 @@ export const getLocationType = () => (dispatch) => {
     headers: {
       "Content-Type": "application/json",
     },
+    httpsAgent: https
   })
     .then((res) => {
       fetchLocationTypePayload.data.location_type = res.data.location_type;

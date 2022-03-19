@@ -1,13 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
 import { Form, Button, FormSelect } from "react-bootstrap";
 import Header from "../component/header.js";
 import Sidebar from "../component/sidebar.js";
 import EditableMap from "../component/editablemap.js";
-const AddLocation = () => {
+import { getLocationType } from "../redux/action/getLocationType.js";
+import { GetProvince } from "../redux/action/getProvince.js";
+import { getCityByProvinsi } from "../redux/action/getCityByProvince.js";
+
+import LocationTypeItems from "../component/locationTypeItem.js";
+import ProvinceSelectItem from "../component/provinceSelectItem.js";
+import CitySelectItem from "../component/citySelectItem.js";
+
+const AddLocation = (props) => {
   const [getLocation, setLocation] = useState({
     geometry: "",
   });
   const [showGeofence, hideGoefence] = useState(false);
+
+  React.useEffect(async () => {
+    await props.ActionFetchLocationType();
+    await props.ActionFetchProvinsi();
+  }, []);
 
   const _checkboxOnChange = (e) => {
     if (e.target.checked == false) {
@@ -17,6 +31,16 @@ const AddLocation = () => {
     }
   };
 
+  const _locationTypeOnChange = (e) => {
+    console.log(e.target.value);
+  };
+
+  const _getProvinceOnChange = (e) => {
+    if (e.target.value == 0) {
+    } else {
+      props.ActionGetCityByProvinsi(e.target.value);
+    }
+  };
   return (
     <>
       <div className="hold-transition layout-fixed layout-navbar-fixed layout-footer-fixed">
@@ -53,24 +77,44 @@ const AddLocation = () => {
                                 >
                                   Type
                                 </Form.Label>
-                                <FormSelect>
-                                  <option>....</option>
+                                <FormSelect onChange={_locationTypeOnChange}>
+                                  {props.locationTypeState.isLoading == true ? (
+                                    <option>Please wait....</option>
+                                  ) : (
+                                    <LocationTypeItems
+                                      data={props.locationTypeState.data}
+                                    />
+                                  )}
+                                  {/* <LocationTypeItems/> */}
                                 </FormSelect>
                               </div>
                               <div className="col">
-                                <Form.Label>City</Form.Label>
-                                <FormSelect>
-                                  <option>City...</option>
+                                <Form.Label>Province</Form.Label>
+                                <FormSelect onChange={_getProvinceOnChange}>
+                                  {props.fetchProvinsiState.isLoading ==
+                                  true ? (
+                                    <option>Please wait....</option>
+                                  ) : (
+                                    <ProvinceSelectItem
+                                      data={props.fetchProvinsiState.data}
+                                    />
+                                  )}
                                 </FormSelect>
                                 <Form.Label
                                   style={{
                                     marginTop: "10px",
                                   }}
                                 >
-                                  Province
+                                  City
                                 </Form.Label>
                                 <FormSelect>
-                                  <option>Province</option>
+                                  {props.getCityByProvinsi.isLoading == true ? (
+                                    <option>Please Select Province</option>
+                                  ) : (
+                                    <CitySelectItem
+                                      data={props.getCityByProvinsi.data}
+                                    />
+                                  )}
                                 </FormSelect>
                               </div>
                             </div>
@@ -98,7 +142,10 @@ const AddLocation = () => {
                                 className="form-row"
                                 hidden={showGeofence == false ? true : false}
                               >
-                                <div className="col" style={{marginTop:"10px"}}>
+                                <div
+                                  className="col"
+                                  style={{ marginTop: "10px" }}
+                                >
                                   <Form.Label>
                                     <small>Geofence Type</small>
                                   </Form.Label>
@@ -108,7 +155,10 @@ const AddLocation = () => {
                                     <option>Attendance</option>
                                   </FormSelect>
                                   {/* row geofencing detect start*/}
-                                  <div className="row" style={{marginTop:"10px"}}>
+                                  <div
+                                    className="row"
+                                    style={{ marginTop: "10px" }}
+                                  >
                                     <Form.Label>
                                       <small>Geofencing Detect</small>
                                     </Form.Label>
@@ -164,5 +214,25 @@ const AddLocation = () => {
     </>
   );
 };
-
-export default AddLocation;
+// redux management
+const mapStateProps = (state) => {
+  return {
+    locationTypeState: state.reducerGetLocationType,
+    fetchProvinsiState: state.reducerFetchProvinsi,
+    getCityByProvinsi: state.reducerGetCityByProvinsi,
+  };
+};
+const mapDispatachToProps = (dispatch) => {
+  return {
+    ActionFetchLocationType: () => {
+      dispatch(getLocationType());
+    },
+    ActionFetchProvinsi: () => {
+      dispatch(GetProvince());
+    },
+    ActionGetCityByProvinsi: (id) => {
+      dispatch(getCityByProvinsi(id));
+    },
+  };
+};
+export default connect(mapStateProps, mapDispatachToProps)(AddLocation);

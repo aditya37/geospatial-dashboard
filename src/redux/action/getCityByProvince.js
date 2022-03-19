@@ -13,7 +13,7 @@ const getCityByProvinsiPayload = {
 
 export const getCityByProvinsi = (cityid) => (dispatch) => {
   dispatch({ type: PROCESS_FETCH_CITY, payload: getCityByProvinsiPayload });
-  console.log(cityid);
+  
   return axios({
     baseURL: BASE_URL_INDOAREA,
     method: "GET",

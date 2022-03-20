@@ -1,5 +1,9 @@
-import { MapContainer, TileLayer, Marker,Popup } from "react-leaflet";
+import React from "react";
+import { MapContainer, TileLayer, GeoJSON, Popup } from "react-leaflet";
+
 const map = (props) => {
+  const geojsonData = props.data || [];
+  const { onEachFeature } = props;
   return (
     <>
       <div>
@@ -8,20 +12,28 @@ const map = (props) => {
             width: "auto",
             height: props.height,
           }}
-          center={[52.6376, -1.135171]}
-          zoom={12}
+          center={[-6.2140576, 106.8141081]}
+          zoom={50}
           scrollWheelZoom={false}
         >
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          <Marker position={[52.6376, -1.135171]}>
-            <Popup>
-              A pretty CSS3 popup. <br /> Easily customizable.
-            </Popup> 
-          </Marker>
-          
+          {/* if available geojson */}
+          {geojsonData.length > 0
+            ? geojsonData.map((val) => {
+                return (
+                  <>
+                    <GeoJSON
+                      key={val.id}
+                      data={val.shape}
+                      onEachFeature={onEachFeature}
+                    />
+                  </>
+                );
+              })
+            : ""}
         </MapContainer>
       </div>
     </>

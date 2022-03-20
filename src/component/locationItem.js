@@ -6,7 +6,7 @@ import {
 } from "@fortawesome/fontawesome-svg-core/import.macro";
 
 const locationItem = (props) => {
-  const locationItems = props.items.locations || [];
+  const locationItems = props.items || [];
   return (
     <div
       className="list-group"
@@ -20,11 +20,11 @@ const locationItem = (props) => {
           <div class="list-group-item">
             <div class="d-flex justify-content-between align-items-center border-bottom mb-3">
               <p class="text-warning text-xl">
-                {val.type == "road" ? (
+                {val.shape.properties.location_type == "ROAD" ? (
                   <FontAwesomeIcon icon={solid("road")} />
-                ) : val.type == "mosque" ? (
+                ) : val.shape.properties.location_type == "MOSQUE" ? (
                   <FontAwesomeIcon icon={solid("mosque")} />
-                ) : val.type == "cruch" ? (
+                ) : val.shape.properties.location_type == "CRUCH" ? (
                   <FontAwesomeIcon icon={solid("cross")} />
                 ) : (
                   <FontAwesomeIcon icon={solid("building")} />

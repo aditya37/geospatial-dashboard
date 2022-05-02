@@ -1,22 +1,33 @@
-import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
-import { Form, Button, FormSelect } from "react-bootstrap";
-import Header from "../component/header.js";
-import Sidebar from "../component/sidebar.js";
-import EditableMap from "../component/editablemap.js";
-import { getLocationType } from "../redux/action/getLocationType.js";
-import { GetProvince } from "../redux/action/getProvince.js";
-import { getCityByProvinsi } from "../redux/action/getCityByProvince.js";
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { Form, Button, FormSelect } from 'react-bootstrap';
+import Header from '../component/header.js';
+import Sidebar from '../component/sidebar.js';
+import EditableMap from '../component/editablemap.js';
+import { getLocationType } from '../redux/action/getLocationType.js';
+import { GetProvince } from '../redux/action/getProvince.js';
+import { getCityByProvinsi } from '../redux/action/getCityByProvince.js';
 
-import LocationTypeItems from "../component/locationTypeItem.js";
-import ProvinceSelectItem from "../component/provinceSelectItem.js";
-import CitySelectItem from "../component/citySelectItem.js";
+import LocationTypeItems from '../component/locationTypeItem.js';
+import ProvinceSelectItem from '../component/provinceSelectItem.js';
+import CitySelectItem from '../component/citySelectItem.js';
 
 const AddLocation = (props) => {
   const [getLocation, setLocation] = useState({
-    geometry: "",
+    geometry: ''
   });
   const [showGeofence, hideGoefence] = useState(false);
+  // form state
+  const [getFormState, setFormState] = useState({
+    location_name: '',
+    city_id: 0,
+    province_id: 0,
+    location_type: 0,
+    shape: '',
+    is_geofence: false,
+    geofence_type: '',
+    detect: []
+  });
 
   React.useEffect(async () => {
     await props.ActionFetchLocationType();
@@ -26,20 +37,60 @@ const AddLocation = (props) => {
   const _checkboxOnChange = (e) => {
     if (e.target.checked == false) {
       hideGoefence(false);
+      setFormState({
+        ...getFormState,
+        is_geofence: false
+      });
     } else {
+      setFormState({
+        ...getFormState,
+        is_geofence: true
+      });
       hideGoefence(true);
     }
   };
 
   const _locationTypeOnChange = (e) => {
-    console.log(e.target.value);
+    setFormState({
+      ...getFormState,
+      location_type: e.target.value
+    });
   };
 
   const _getProvinceOnChange = (e) => {
     if (e.target.value == 0) {
     } else {
       props.ActionGetCityByProvinsi(e.target.value);
+      setFormState({
+        ...getFormState,
+        province_id: e.target.value
+      });
     }
+  };
+  const _selectCityOnchange = (e) => {
+    setFormState({
+      ...getFormState,
+      city_id: e.target.value
+    });
+  };
+  const _handleGeofenceDetect = (val) => {
+    if (val.target.checked) {
+      setFormState({
+        ...getFormState,
+        detect: [...getFormState.detect, val.target.id]
+      });
+    } else {
+      getFormState.detect.forEach((index, key) => {
+        var _indexItem = getFormState.detect.indexOf(key);
+        // slice array
+        getFormState.detect.splice(_indexItem, 1);
+      });
+    }
+  };
+  const _handleFormSubmit = (e) => {
+    e.preventDefault();
+
+    console.log(getFormState);
   };
   return (
     <>
@@ -51,7 +102,7 @@ const AddLocation = (props) => {
               <div
                 className="row"
                 style={{
-                  marginTop: 10,
+                  marginTop: 10
                 }}
               >
                 <div className="col-md-12">
@@ -65,14 +116,23 @@ const AddLocation = (props) => {
                       <div className="row">
                         {/* colom form */}
                         <div className="col-md-4">
-                          <Form>
+                          <Form onSubmit={(e) => _handleFormSubmit(e)}>
                             <div className="form-row">
                               <div className="col">
                                 <Form.Label>Name</Form.Label>
-                                <Form.Control type="text" placeholder="Name" />
+                                <Form.Control
+                                  type="text"
+                                  placeholder="Name"
+                                  onChange={(e) => {
+                                    setFormState({
+                                      ...getFormState,
+                                      location_name: e.target.value
+                                    });
+                                  }}
+                                />
                                 <Form.Label
                                   style={{
-                                    marginTop: "10px",
+                                    marginTop: '10px'
                                   }}
                                 >
                                   Type
@@ -102,12 +162,12 @@ const AddLocation = (props) => {
                                 </FormSelect>
                                 <Form.Label
                                   style={{
-                                    marginTop: "10px",
+                                    marginTop: '10px'
                                   }}
                                 >
                                   City
                                 </Form.Label>
-                                <FormSelect>
+                                <FormSelect onChange={_selectCityOnchange}>
                                   {props.getCityByProvinsi.isLoading == true ? (
                                     <option>Please Select Province</option>
                                   ) : (
@@ -123,7 +183,7 @@ const AddLocation = (props) => {
                               as="textarea"
                               rows={4}
                               style={{
-                                marginTop: "10px",
+                                marginTop: '10px'
                               }}
                               value={JSON.stringify(
                                 getLocation.geometry.geometry
@@ -132,7 +192,7 @@ const AddLocation = (props) => {
                             />
 
                             {/* geofencing form start*/}
-                            <div className="mb-3" style={{ marginTop: "12px" }}>
+                            <div className="mb-3" style={{ marginTop: '12px' }}>
                               <Form.Check
                                 type="checkbox"
                                 label="Geofencing Area"
@@ -144,32 +204,51 @@ const AddLocation = (props) => {
                               >
                                 <div
                                   className="col"
-                                  style={{ marginTop: "10px" }}
+                                  style={{ marginTop: '10px' }}
                                 >
                                   <Form.Label>
                                     <small>Geofence Type</small>
                                   </Form.Label>
-                                  <FormSelect>
-                                    <option>Tourist</option>
-                                    <option>Logistic</option>
-                                    <option>Attendance</option>
+                                  <FormSelect
+                                    onChange={(val) => {
+                                      setFormState({
+                                        ...getFormState,
+                                        geofence_type: val.target.value
+                                      });
+                                    }}
+                                  >
+                                    <option key="tourist">tourist</option>
+                                    <option key="logistic">logistic</option>
+                                    <option key="attedance">attendance</option>
                                   </FormSelect>
                                   {/* row geofencing detect start*/}
                                   <div
                                     className="row"
-                                    style={{ marginTop: "10px" }}
+                                    style={{ marginTop: '10px' }}
                                   >
                                     <Form.Label>
                                       <small>Geofencing Detect</small>
                                     </Form.Label>
                                     <div className="col">
-                                      <Form.Check label="Enter" />
+                                      <Form.Check
+                                        label="Enter"
+                                        id="enter"
+                                        onChange={_handleGeofenceDetect}
+                                      />
                                     </div>
                                     <div className="col">
-                                      <Form.Check label="Inside" />
+                                      <Form.Check
+                                        label="Inside"
+                                        id="inside"
+                                        onChange={_handleGeofenceDetect}
+                                      />
                                     </div>
                                     <div className="col">
-                                      <Form.Check label="Exit" />
+                                      <Form.Check
+                                        label="Exit"
+                                        id="exit"
+                                        onChange={_handleGeofenceDetect}
+                                      />
                                     </div>
                                   </div>
                                   {/* row geofencing detect stop*/}
@@ -181,8 +260,9 @@ const AddLocation = (props) => {
                             {/* button */}
                             <Button
                               className="col"
+                              type="submit"
                               style={{
-                                marginTop: "10px",
+                                marginTop: '10px'
                               }}
                             >
                               Save
@@ -193,9 +273,26 @@ const AddLocation = (props) => {
                         <div className="col-md-8">
                           <EditableMap
                             height="60vh"
-                            onCreated={(e) => {
+                            onDeleted={(e) => {
                               setLocation({
-                                geometry: e.layer.toGeoJSON(),
+                                ...getLocation,
+                                geometry: ''
+                              });
+                              setFormState({
+                                ...getFormState,
+                                shape: ''
+                              });
+                            }}
+                            onCreated={(e) => {
+                              var strJson = JSON.stringify(e.layer.toGeoJSON());
+                              var parseJson = JSON.parse(strJson);
+                              console.log(parseJson.geometry);
+                              setLocation({
+                                geometry: e.layer.toGeoJSON()
+                              });
+                              setFormState({
+                                ...getFormState,
+                                shape: parseJson.geometry
                               });
                             }}
                           />
@@ -216,10 +313,11 @@ const AddLocation = (props) => {
 };
 // redux management
 const mapStateProps = (state) => {
+  console.log(state.reducerFetchProvinsi);
   return {
     locationTypeState: state.reducerGetLocationType,
     fetchProvinsiState: state.reducerFetchProvinsi,
-    getCityByProvinsi: state.reducerGetCityByProvinsi,
+    getCityByProvinsi: state.reducerGetCityByProvinsi
   };
 };
 const mapDispatachToProps = (dispatch) => {
@@ -232,7 +330,7 @@ const mapDispatachToProps = (dispatch) => {
     },
     ActionGetCityByProvinsi: (id) => {
       dispatch(getCityByProvinsi(id));
-    },
+    }
   };
 };
 export default connect(mapStateProps, mapDispatachToProps)(AddLocation);

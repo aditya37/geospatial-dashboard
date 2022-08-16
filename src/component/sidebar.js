@@ -1,4 +1,4 @@
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 const sidebar = () => {
   return (
     <>
@@ -17,44 +17,66 @@ const sidebar = () => {
                 <p>Overview</p>
               </a>
             </li>
-            {/* Location page start*/}
             <li class="nav-item">
-              {/* toggle menu */}
               <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-globe"></i>
-                <p>
-                  Location
-                  <i class="fas fa-angle-left right"></i>
-                </p>
+                <p>Location</p>
               </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <Link to="/location/add" class="nav-link">
-                    <i class="far fa-building nav-icon"></i>
-                    <p>Add Location</p>
-                  </Link>
-                </li>
-                <li class="nav-item">
-                  <a href="pages/layout/top-nav.html" class="nav-link">
-                    <i class="far fa-building nav-icon"></i>
-                    <p>Get Location</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="pages/layout/top-nav.html" class="nav-link">
-                    <i class="fas fa-map-marker-alt nav-icon"></i>
-                    <p>Nearby Location</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="pages/layout/top-nav.html" class="nav-link">
-                    <i class="fas fa-location-arrow nav-icon"></i>
-                    <p>Direction or Route</p>
-                  </a>
-                </li>
-              </ul>
             </li>
-            {/* Location page end*/}
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-globe"></i>
+                <p>Location Type</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="fas fa-map-marker-alt nav-icon"></i>
+                <p>Search Location</p>
+              </a>
+            </li>
+            <div
+              className="border-bottom"
+              style={{
+                color: "#363740",
+              }}
+            />
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="fas fa-microchip nav-icon"></i>
+                <p>Devices</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="fas fa-regular fa-clipboard nav-icon"></i>
+                <p>Device Log</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="fas fa-regular fa-wave-pulse nav-icon"></i>
+                <p>Device Monitoring</p>
+              </a>
+            </li>
+            <div
+              className="border-bottom"
+              style={{
+                color: "#363740",
+              }}
+            />
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-globe"></i>
+                <p>Geofencing</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-globe"></i>
+                <p>Geo Tracking</p>
+              </a>
+            </li>
           </ul>
         </nav>
       </aside>

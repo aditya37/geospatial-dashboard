@@ -14,7 +14,7 @@ const sidebar = () => {
             <li class="nav-item active">
               <a href="#" class="nav-link active">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
-                <p>Dashboard</p>
+                <p>Overview</p>
               </a>
             </li>
             {/* Location page start*/}

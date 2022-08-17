@@ -51,10 +51,17 @@ const sidebar = (props) => {
               )}
             </li>
             <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="fas fa-map-marker-alt nav-icon"></i>
-                <p>Search Location</p>
-              </a>
+              {props.path == "search-location" ? (
+                <Link to="/location/search/" class="nav-link active">
+                  <i class="fas fa-map-marker-alt nav-icon"></i>
+                  <p>Search Location</p>
+                </Link>
+              ) : (
+                <Link to="/location/search/" class="nav-link">
+                  <i class="fas fa-map-marker-alt nav-icon"></i>
+                  <p>Search Location</p>
+                </Link>
+              )}
             </li>
             <div
               className="border-bottom"

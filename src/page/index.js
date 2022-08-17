@@ -5,6 +5,7 @@ import GetLocations from "../page/locations";
 import DetailLocation from "../page/locations/detail";
 import EditLocation from "../page/locations/editLocation";
 import LocationType from "../page/locationType";
+import SearchLocation from "../page/locations/searchLocation"
 export {
   Dashboard,
   AddLocation,
@@ -13,4 +14,5 @@ export {
   DetailLocation,
   EditLocation,
   LocationType,
+  SearchLocation,
 };

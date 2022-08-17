@@ -6,6 +6,7 @@ import {
   AddLocation,
   DetailLocation,
   EditLocation,
+  LocationType,
 } from "../page";
 import { Routes, Route } from "react-router-dom";
 import store from "../redux/store.js";
@@ -21,6 +22,7 @@ const MyRoute = () => {
           element={<DetailLocation />}
         />
         <Route path="/location/edit/:id" element={<EditLocation />} />
+        <Route path="/location/type/" element={<LocationType />} />
       </Routes>
     </Provider>
   );

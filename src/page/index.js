@@ -3,12 +3,14 @@ import AddLocation from "../page/addLocation.js";
 import SimulateTracking from "../page/simulate_tracking.js";
 import GetLocations from "../page/locations";
 import DetailLocation from "../page/locations/detail";
-import EditLocation from "../page/locations/editLocation"
+import EditLocation from "../page/locations/editLocation";
+import LocationType from "../page/locationType";
 export {
   Dashboard,
   AddLocation,
   SimulateTracking,
   GetLocations,
   DetailLocation,
-  EditLocation
+  EditLocation,
+  LocationType,
 };

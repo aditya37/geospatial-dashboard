@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-const sidebar = () => {
+const sidebar = (props) => {
   return (
     <>
       <aside class="main-sidebar sidebar-dark-primary elevation-4">
@@ -12,16 +12,30 @@ const sidebar = () => {
             data-accordion="false"
           >
             <li class="nav-item active">
-              <a href="#" class="nav-link active">
-                <i class="nav-icon fas fa-tachometer-alt"></i>
-                <p>Overview</p>
-              </a>
+              {props.path == "overview" ? (
+                <Link to="/" class="nav-link active">
+                  <i class="nav-icon fas fa-tachometer-alt"></i>
+                  <p>Overview</p>
+                </Link>
+              ) : (
+                <Link to="/" class="nav-link">
+                  <i class="nav-icon fas fa-tachometer-alt"></i>
+                  <p>Overview</p>
+                </Link>
+              )}
             </li>
             <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-globe"></i>
-                <p>Location</p>
-              </a>
+              {props.path == "location" ? (
+                <Link to="/location/" class="nav-link active">
+                  <i class="nav-icon fas fa-globe"></i>
+                  <p>Location</p>
+                </Link>
+              ) : (
+                <Link to="/location/" class="nav-link">
+                  <i class="nav-icon fas fa-globe"></i>
+                  <p>Location</p>
+                </Link>
+              )}
             </li>
             <li class="nav-item">
               <a href="#" class="nav-link">

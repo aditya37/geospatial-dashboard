@@ -13,7 +13,7 @@ const map = (props) => {
             height: props.height,
           }}
           center={[-6.2140576, 106.8141081]}
-          zoom={50}
+          zoom={40}
           scrollWheelZoom={false}
         >
           <TileLayer

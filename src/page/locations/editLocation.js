@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Form, Button, FormSelect } from "react-bootstrap";
-import Header from "../component/header.js";
-import Sidebar from "../component/sidebar.js";
-import EditableMap from "../component/editablemap.js";
-import { getLocationType } from "../redux/action/getLocationType.js";
-import { GetProvince } from "../redux/action/getProvince.js";
-import { getCityByProvinsi } from "../redux/action/getCityByProvince.js";
+import Header from "../../component/header.js";
+import Sidebar from "../../component/sidebar.js";
+import EditableMap from "../../component/editablemap";
+import { getLocationType } from "../../redux/action/getLocationType.js";
+import { GetProvince } from "../../redux/action/getProvince.js";
+import { getCityByProvinsi } from "../../redux/action/getCityByProvince.js";
 import { Link } from "react-router-dom";
-import LocationTypeItems from "../component/locationTypeItem.js";
-import ProvinceSelectItem from "../component/provinceSelectItem.js";
-import CitySelectItem from "../component/citySelectItem.js";
+import LocationTypeItems from "../../component/locationTypeItem.js";
+import ProvinceSelectItem from "../../component/provinceSelectItem.js";
+import CitySelectItem from "../../component/citySelectItem";
 
-const AddLocation = (props) => {
+const EditLocation = (props) => {
   const [getLocation, setLocation] = useState({
     geometry: "",
   });
@@ -109,7 +109,7 @@ const AddLocation = (props) => {
                   {/* main card start */}
                   <div className="card">
                     <div className="card-header">
-                      <h5>Add Location</h5>
+                      <h5>Edit Location</h5>
                     </div>
                     <div className="card-body">
                       {/* row for add location */}
@@ -343,4 +343,4 @@ const mapDispatachToProps = (dispatch) => {
     },
   };
 };
-export default connect(mapStateProps, mapDispatachToProps)(AddLocation);
+export default connect(mapStateProps, mapDispatachToProps)(EditLocation);

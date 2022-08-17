@@ -1,4 +1,5 @@
-const header = () => {
+const header = (props) => {
+  
   return (
     <>
       <nav
@@ -13,7 +14,7 @@ const header = () => {
             marginLeft: "5px",
           }}
         >
-          Overview
+          {props.page}
         </h4>
       </nav>
     </>

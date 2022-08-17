@@ -38,10 +38,17 @@ const sidebar = (props) => {
               )}
             </li>
             <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-globe"></i>
-                <p>Location Type</p>
-              </a>
+              {props.path == "location-type" ? (
+                <Link to="/location/type/" class="nav-link active">
+                  <i class="nav-icon fas fa-globe"></i>
+                  <p>Location Type</p>
+                </Link>
+              ) : (
+                <Link to="/location/type/" class="nav-link">
+                  <i class="nav-icon fas fa-globe"></i>
+                  <p>Location Type</p>
+                </Link>
+              )}
             </li>
             <li class="nav-item">
               <a href="#" class="nav-link">

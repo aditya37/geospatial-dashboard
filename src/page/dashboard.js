@@ -13,7 +13,7 @@ const Dashboard = (props) => {
   return (
     <>
       <div className="hold-transition layout-fixed layout-navbar-fixed layout-footer-fixed">
-        <Header />
+        <Header page="Overview" />
         <div className="content-wrapper">
           <section className="content">
             <div className="container-fluid">
@@ -77,7 +77,7 @@ const Dashboard = (props) => {
             </div>
           </section>
         </div>
-        <Sidebar />
+        <Sidebar path="overview"/>
       </div>
     </>
   );

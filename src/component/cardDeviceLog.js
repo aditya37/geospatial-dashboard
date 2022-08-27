@@ -1,6 +1,8 @@
+import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
 
-const CardDeviceLog = () => {
+const CardDeviceLog = ({ values }, props) => {
+  const valueData = JSON.parse(values);
   return (
     <>
       <div className="card">
@@ -14,34 +16,27 @@ const CardDeviceLog = () => {
           <Table className="table table-bordered">
             <thead>
               <tr>
-                <th>#</th>
                 <th>Device Id</th>
                 <th>Activity</th>
+                <th>Timestmap</th>
                 <th>Status</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1.</td>
-                <td>bb122</td>
-                <td>Update software</td>
-                <td>
-                  <span className="badge bg-danger">bahaya</span>
-                </td>
-              </tr>
-              <tr>
-                <td>2.</td>
-                <td>bb122</td>
-                <td>Update software</td>
-                <td>
-                  <span className="badge bg-danger">bahaya</span>
-                </td>
-              </tr>
+              {valueData.map((item) => {
+                return (
+                  <tr>
+                    <td>{item.device_id}</td>
+                    <td>{item.reason}</td>
+                    <td>{item.recorded_at}</td>
+                    <td>
+                      <span className="badge bg-primary">{item.status}</span>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </Table>
-        </div>
-        <div className="card-footer">
-            <span>Recorded at: 2022-01-11</span>
         </div>
       </div>
     </>

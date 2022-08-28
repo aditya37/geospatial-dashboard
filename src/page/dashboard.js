@@ -4,11 +4,36 @@ import Header from "../component/header.js";
 import Sidebar from "../component/sidebar.js";
 import CardMobilityLog from "../component/cardMobilityLog.js";
 import CardDeviceLog from "../component/cardDeviceLog.js";
-import { fetchLocations } from "../redux/action/fetchLocations.js";
-
+import { FetchCounter } from "../redux/action/fetchCounter";
+import { BASE_URL_SOCKET_SERVICE_STREAM } from "../redux/action/actions";
+import dumyJson from "../dumy_json";
 const Dashboard = (props) => {
+  const [deviceLogs, setDeviceLogs] = useState({
+    data: "" || JSON.stringify(dumyJson),
+  });
+  const SocketDeviceLogs = () => {
+    var url = BASE_URL_SOCKET_SERVICE_STREAM + "/ws/devices/logs";
+    const ws = new WebSocket(url);
+
+    // on open
+    ws.onopen = () => {
+      console.log("Socket Open");
+    };
+    ws.onerror = (e) => {
+      console.log("Socket Error", e);
+    };
+    ws.onclose = () => {
+      console.log("Socket Closed");
+    };
+    ws.onmessage = (msg) => {
+      setDeviceLogs({
+        data: msg.data,
+      });
+    };
+  };
   React.useEffect(async () => {
-    await props.ActionFetchLocation();
+    await props.ActionFetchCounter();
+    await SocketDeviceLogs();
   }, []);
   return (
     <>
@@ -27,7 +52,11 @@ const Dashboard = (props) => {
                 <div class="col-md-3">
                   <div class="small-box bg-info">
                     <div class="inner">
-                      <h3>150</h3>
+                      {props.stateFetchCounter.isLoading == true ? (
+                        <small>Fetching....</small>
+                      ) : (
+                        <h3>{props.stateFetchCounter.data.activated_device}</h3>
+                      )}
                       <p>Activated Device</p>
                     </div>
                   </div>
@@ -35,7 +64,13 @@ const Dashboard = (props) => {
                 <div class="col-md-3">
                   <div class="small-box bg-success">
                     <div class="inner">
-                      <h3>150</h3>
+                      {props.stateFetchCounter.isLoading == true ? (
+                        <small>Fetching....</small>
+                      ) : (
+                        <h3>
+                          {props.stateFetchCounter.data.recorded_tracking}
+                        </h3>
+                      )}
                       <p>Recorded Tracking</p>
                     </div>
                   </div>
@@ -43,7 +78,13 @@ const Dashboard = (props) => {
                 <div class="col-md-3">
                   <div class="small-box bg-warning">
                     <div class="inner">
-                      <h3>150</h3>
+                      {props.stateFetchCounter.isLoading == true ? (
+                        <small>Fetching....</small>
+                      ) : (
+                        <h3>
+                          {props.stateFetchCounter.data.registered_location}
+                        </h3>
+                      )}
                       <p>Location</p>
                     </div>
                   </div>
@@ -51,7 +92,11 @@ const Dashboard = (props) => {
                 <div class="col-md-3">
                   <div class="small-box bg-warning">
                     <div class="inner">
-                      <h3>150</h3>
+                      {props.stateFetchCounter.isLoading == true ? (
+                        <small>Fetching....</small>
+                      ) : (
+                        <h3>{props.stateFetchCounter.data.geofence_area}</h3>
+                      )}
                       <p>Geofence Area</p>
                     </div>
                   </div>
@@ -66,7 +111,7 @@ const Dashboard = (props) => {
                     {/* div mobility log stop*/}
                     {/* div device log... start*/}
                     <div className="col-lg-6">
-                      <CardDeviceLog />
+                      <CardDeviceLog values={deviceLogs.data} />
                     </div>
                     {/* div device log... end*/}
                   </div>
@@ -77,7 +122,7 @@ const Dashboard = (props) => {
             </div>
           </section>
         </div>
-        <Sidebar path="overview"/>
+        <Sidebar path="overview" />
       </div>
     </>
   );
@@ -85,13 +130,13 @@ const Dashboard = (props) => {
 // redux
 const mapStateProps = (state) => {
   return {
-    stateFetchLocation: state.reducerGetLocations,
+    stateFetchCounter: state.reducerFetchCounter,
   };
 };
 const mapDispatachToProps = (dispatch) => {
   return {
-    ActionFetchLocation: () => {
-      dispatch(fetchLocations());
+    ActionFetchCounter: () => {
+      dispatch(FetchCounter());
     },
   };
 };

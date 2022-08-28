@@ -11,19 +11,50 @@ const Dashboard = (props) => {
   const [deviceLogs, setDeviceLogs] = useState({
     data: "" || JSON.stringify(dumyJson),
   });
-  const SocketDeviceLogs = () => {
+  const [mobilityAvg, setMobilityAvg] = useState({
+    inside: 0,
+    enter: 0,
+    exit: 0,
+  });
+  // SocketMobilityLogs...
+  const SocketMobilityLogs = () => {
+    var url = BASE_URL_SOCKET_SERVICE_STREAM + "/ws/geofencing/mobility/avg";
+    const ws = new WebSocket(url);
+    // on open
+    ws.onopen = () => {
+      console.log("Socket Geofencing Logs Open");
+    };
+    ws.onerror = (e) => {
+      console.log("Socket Geofencing Logs Error", e);
+    };
+    ws.onclose = () => {
+      console.log("Socket Geofencing Logs Closed");
+    };
+    ws.onmessage = (msg) => {
+      console.log(msg.data);
+      var p = JSON.parse(msg.data);
+      setMobilityAvg({
+        inside: p.inside,
+        enter: p.enter,
+        exit: p.exit,
+      });
+    };
+  };
+
+  // SocketDeviceLogs....
+  const SocketDeviceLogs = async () => {
     var url = BASE_URL_SOCKET_SERVICE_STREAM + "/ws/devices/logs";
     const ws = new WebSocket(url);
 
     // on open
     ws.onopen = () => {
-      console.log("Socket Open");
+      console.log("Socket Device Logs Open");
     };
     ws.onerror = (e) => {
-      console.log("Socket Error", e);
+      console.log("Socket Device Logs Error", e);
     };
     ws.onclose = () => {
-      console.log("Socket Closed");
+      console.log("Socket Device Logs Closed");
     };
     ws.onmessage = (msg) => {
       setDeviceLogs({
@@ -31,9 +62,11 @@ const Dashboard = (props) => {
       });
     };
   };
+
   React.useEffect(async () => {
     await props.ActionFetchCounter();
     await SocketDeviceLogs();
+    await SocketMobilityLogs();
   }, []);
   return (
     <>
@@ -106,7 +139,11 @@ const Dashboard = (props) => {
                   <div className="row">
                     {/* div mobility log start*/}
                     <div className="col-lg-6">
-                      <CardMobilityLog />
+                      <CardMobilityLog
+                        enter={mobilityAvg.enter}
+                        inside={mobilityAvg.inside}
+                        exit={mobilityAvg.exit}
+                      />
                     </div>
                     {/* div mobility log stop*/}
                     {/* div device log... start*/}

@@ -1,4 +1,4 @@
-const CardMobilityLog = () => {
+const CardMobilityLog = (props) => {
   return (
     <>
       <div className="card">
@@ -20,7 +20,7 @@ const CardMobilityLog = () => {
             </p>
             <p class="d-flex flex-column text-right">
               <span class="font-weight-bold">
-                <i class="text-success"></i> 12
+                <i class="text-success"></i> {props.inside}
               </span>
             </p>
           </div>
@@ -30,7 +30,7 @@ const CardMobilityLog = () => {
             </p>
             <p class="d-flex flex-column text-right">
               <span class="font-weight-bold">
-                <i class="text-success"></i> 1200
+                <i class="text-success"></i> {props.exit}
               </span>
             </p>
           </div>
@@ -40,13 +40,10 @@ const CardMobilityLog = () => {
             </p>
             <p class="d-flex flex-column text-right">
               <span class="font-weight-bold">
-                <i class="text-success"></i> 12
+                <i class="text-success"></i>  {props.enter}
               </span>
             </p>
           </div>
-        </div>
-        <div className="card-footer">
-          <span>Recorded at: 2022-01-11</span>
         </div>
       </div>
     </>

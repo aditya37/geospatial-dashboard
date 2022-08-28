@@ -1,8 +1,17 @@
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
 import Header from "../../component/header";
 import Sidebar from "../../component/sidebar";
-import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
-const GetLocations = () => {
+import DataTable from "react-data-table-component";
+import TableLocationsCol from "./table_locations_col";
+import data from "./dumy_data_table_location";
+import { fetchLocations } from "../../redux/action/fetchLocations";
+
+const GetLocations = (props) => {
+  React.useEffect(async () => {
+    await props.ActionGetLocations();
+  }, []);
   return (
     <>
       <div className="hold-transition layout-fixed layout-navbar-fixed layout-footer-fixed">
@@ -37,87 +46,21 @@ const GetLocations = () => {
                     </div>
                     {/* card header stop */}
                     <div className="card-body">
-                      <Table className="table ">
-                        <thead>
-                          <tr>
-                            <th>#</th>
-                            <th>Location Name</th>
-                            <th>Province Name</th>
-                            <th>City Name</th>
-                            <th>Type</th>
-                            <th>With Goefencing</th>
-                            <th></th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>1.</td>
-                            <td>Pasar Dander</td>
-                            <td>Jawa Timur</td>
-                            <td>Bojonegoro</td>
-                            <td>Market</td>
-                            <td>True</td>
-                            <td className="text-right py-0 align-middle">
-                              <div className="btn-group btn-group-md">
-                                <Link
-                                  to="/location/1/lat/124.00/long/-122.222"
-                                  className="btn btn-primary"
-                                  style={{
-                                    marginRight: "10px",
-                                  }}
-                                >
-                                  <i class="fas fa-eye"></i>
-                                </Link>
-                                <Link to="/location/edit/1" className="btn btn-info">
-                                  <i className="fas fa-edit"></i>
-                                </Link>
-                                <Link
-                                  to="/"
-                                  className="btn btn-danger"
-                                  style={{
-                                    marginLeft: "10px",
-                                  }}
-                                >
-                                  <i class="fas fa-trash"></i>
-                                </Link>
-                              </div>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>1.</td>
-                            <td>Pasar Dander</td>
-                            <td>Jawa Timur</td>
-                            <td>Bojonegoro</td>
-                            <td>Market</td>
-                            <td>True</td>
-                            <td className="text-right py-0 align-middle">
-                              <div className="btn-group btn-group-md">
-                                <Link
-                                  to="/location/1/lat/124.00/long/-122.222"
-                                  className="btn btn-primary"
-                                  style={{
-                                    marginRight: "10px",
-                                  }}
-                                >
-                                  <i class="fas fa-eye"></i>
-                                </Link>
-                                <Link to="/" className="btn btn-info">
-                                  <i className="fas fa-edit"></i>
-                                </Link>
-                                <Link
-                                  to="/"
-                                  className="btn btn-danger"
-                                  style={{
-                                    marginLeft: "10px",
-                                  }}
-                                >
-                                  <i class="fas fa-trash"></i>
-                                </Link>
-                              </div>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </Table>
+                      <DataTable
+                        className="table"
+                        progressPending={
+                          props.stateFetchLocation.isLoading == true
+                            ? true
+                            : false
+                        }
+                        columns={TableLocationsCol}
+                        data={props.stateFetchLocation.data || data}
+                        pagination
+                        paginationComponentOptions={{
+                          noRowsPerPage: true,
+                        }}
+                        paginationPerPage="5"
+                      ></DataTable>
                     </div>
                   </div>
                 </div>
@@ -131,4 +74,17 @@ const GetLocations = () => {
     </>
   );
 };
-export default GetLocations;
+// redux
+const mapStateProps = (state) => {
+  return {
+    stateFetchLocation: state.reducerGetLocations,
+  };
+};
+const mapDispatachToProps = (dispatch) => {
+  return {
+    ActionGetLocations: () => {
+      dispatch(fetchLocations());
+    },
+  };
+};
+export default connect(mapStateProps, mapDispatachToProps)(GetLocations);

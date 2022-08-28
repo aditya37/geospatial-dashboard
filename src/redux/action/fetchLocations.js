@@ -18,7 +18,7 @@ export const fetchLocations = () => (dispatch) => {
   return axios({
     baseURL: BASE_URL,
     method: "GET",
-    url: "/locations?page=1&itemPerPage=1000",
+    url: "/geospatial/locations?page=1&itemPerPage=1000",
     headers: {
       "Content-Type": "application/json",
     },

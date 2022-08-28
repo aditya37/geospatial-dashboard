@@ -1,7 +1,7 @@
 var dumyJson = [
   {
-    device_id: 1,
-    reason: "oh",
+    device_id: 0,
+    reason: "",
     recorded_at: "",
   },
 ];

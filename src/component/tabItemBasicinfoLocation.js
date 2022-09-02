@@ -1,5 +1,7 @@
 import { Table } from "react-bootstrap";
-const TabItemBasicInfoLocation = () => {
+const TabItemBasicInfoLocation = (props) => {
+  
+  const datas = props.data
   return (
     <>
       <div className="row">
@@ -20,39 +22,39 @@ const TabItemBasicInfoLocation = () => {
             <tbody>
               <tr>
                 <td>Registered Id</td>
-                <td>1</td>
+                <td>{datas.location_id}</td>
               </tr>
               <tr>
                 <td>Location Name</td>
-                <td>Pasar Dander</td>
+                <td>{datas.location_name}</td>
               </tr>
               <tr>
                 <td>Location Type</td>
-                <td>Market</td>
+                <td>{datas.location_type}</td>
               </tr>
               <tr>
                 <td>With Geofencing</td>
-                <td>Yes</td>
+                <td>{datas.is_geofence == 1 ? "True" : "False"}</td>
               </tr>
               <tr>
                 <td>Geofence Type</td>
-                <td>Tourist</td>
+                <td>{datas.geofence_type}</td>
               </tr>
               <tr>
                 <td>Geometry Type</td>
-                <td>Point</td>
+                <td>{datas.geometry_type}</td>
               </tr>
               <tr>
                 <td>Area (M2)</td>
-                <td>4,5</td>
+                <td>{datas.area}</td>
               </tr>
               <tr>
                 <td>Created At</td>
-                <td>2022-08-17</td>
+                <td>{datas.created_at}</td>
               </tr>
               <tr>
                 <td>Modified At</td>
-                <td>2022-08-17</td>
+                <td>{datas.modified_at}</td>
               </tr>
             </tbody>
           </Table>

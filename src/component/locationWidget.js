@@ -1,4 +1,7 @@
-const LocationWidget = () => {
+import ReactLoading from "react-loading";
+const LocationWidget = (props) => {
+  const { data, isLoading } = props;
+
   return (
     <div className="card card-widget widget-user shadow">
       <div
@@ -9,21 +12,36 @@ const LocationWidget = () => {
           })`,
         }}
       >
-        <h3 className="widget-user-username">Pasar Dander</h3>
-        <h5 className="widget-user-desc">Market</h5>
+        {isLoading == true ? (
+          <ReactLoading type="spin" color="white" height={30} width={30} />
+        ) : (
+          <div>
+            <h3 className="widget-user-username">{data.location_name}</h3>
+            <h5 className="widget-user-desc">{data.location_type}</h5>
+          </div>
+        )}
       </div>
 
       <div className="card-body box-profile">
         <ul className="list-group list-group-unbordered mb-3">
-          <li className="list-group-item">
-            <b>Type</b> <span className="float-right">Market</span>
-          </li>
-          <li className="list-group-item">
-            <b>Avg, Mobilty</b> <span className="float-right">4,5</span>
-          </li>
-          <li className="list-group-item">
-            <b>Last Modified</b> <span className="float-right">2022-01-11</span>
-          </li>
+          {isLoading == true ? (
+            <small>Fetching...</small>
+          ) : (
+            <>
+              <li className="list-group-item">
+                <b>Type</b>{" "}
+                <span className="float-right">{data.location_type}</span>
+              </li>
+              <li className="list-group-item">
+                <b>Avg, Mobilty</b>{" "}
+                <span className="float-right">{data.avg_mobility}</span>
+              </li>
+              <li className="list-group-item">
+                <b>Last Modified</b>{" "}
+                <span className="float-right">{data.modified_at}</span>
+              </li>
+            </>
+          )}
         </ul>
       </div>
     </div>

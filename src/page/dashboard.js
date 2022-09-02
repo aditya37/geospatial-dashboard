@@ -9,23 +9,38 @@ import { BASE_URL_SOCKET_SERVICE_STREAM } from "../redux/action/actions";
 import dumyJson from "../dumy_json";
 const Dashboard = (props) => {
   const [deviceLogs, setDeviceLogs] = useState({
+    isOpened: false,
+    reason: "",
     data: "" || JSON.stringify(dumyJson),
   });
+
   const [mobilityAvg, setMobilityAvg] = useState({
+    isOpened: false,
+    reason: "",
     inside: 0,
     enter: 0,
     exit: 0,
   });
+
   // SocketMobilityLogs...
   const SocketMobilityLogs = () => {
     var url = BASE_URL_SOCKET_SERVICE_STREAM + "/ws/geofencing/mobility/avg";
     const ws = new WebSocket(url);
     // on open
     ws.onopen = () => {
+      setMobilityAvg({
+        ...mobilityAvg,
+        isOpened: true,
+      });
       console.log("Socket Geofencing Logs Open");
     };
     ws.onerror = (e) => {
       console.log("Socket Geofencing Logs Error", e);
+      setMobilityAvg({
+        ...mobilityAvg,
+        isOpened: false,
+        reason: "Failed to fetch mobility log",
+      });
     };
     ws.onclose = () => {
       console.log("Socket Geofencing Logs Closed");
@@ -34,6 +49,7 @@ const Dashboard = (props) => {
       console.log(msg.data);
       var p = JSON.parse(msg.data);
       setMobilityAvg({
+        isOpened: true,
         inside: p.inside,
         enter: p.enter,
         exit: p.exit,
@@ -49,15 +65,25 @@ const Dashboard = (props) => {
     // on open
     ws.onopen = () => {
       console.log("Socket Device Logs Open");
+      setDeviceLogs({
+        ...deviceLogs,
+        isOpened: true,
+      });
     };
     ws.onerror = (e) => {
       console.log("Socket Device Logs Error", e);
+      setDeviceLogs({
+        ...deviceLogs,
+        isOpened: false,
+        reason: "Failed to fetch device logs",
+      });
     };
     ws.onclose = () => {
       console.log("Socket Device Logs Closed");
     };
     ws.onmessage = (msg) => {
       setDeviceLogs({
+        isOpened: true,
         data: msg.data,
       });
     };
@@ -82,6 +108,22 @@ const Dashboard = (props) => {
                   marginTop: 10,
                 }}
               >
+                {/* socket alert Start*/}
+                {mobilityAvg.isOpened == true ? (
+                  ""
+                ) : (
+                  <div className="alert alert-warning" role="alert">
+                    {mobilityAvg.reason}
+                  </div>
+                )}
+                {deviceLogs.isOpened == true ? (
+                  ""
+                ) : (
+                  <div className="alert alert-warning" role="alert">
+                    {deviceLogs.reason}
+                  </div>
+                )}
+                {/* socket alert Stop*/}
                 <div class="col-md-3">
                   <div class="small-box bg-info">
                     <div class="inner">

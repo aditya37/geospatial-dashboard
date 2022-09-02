@@ -4,7 +4,7 @@ import reducerFetchProvinsi from "./reducer/reducer.fetchProvinsi";
 import reducerGetCityByProvinsi from "./reducer/reducer.getCityByProvinsi";
 import reducerGetLocations from "./reducer/reducer.getLocations";
 import reducerFetchCounter from "./reducer/reducer.fetchCounter";
-
+import reducerFetcLocationById from "./reducer/getLocationById";
 
 export default combineReducers({
   reducerGetLocationType: reducerGetLocationType,
@@ -12,4 +12,5 @@ export default combineReducers({
   reducerGetCityByProvinsi: reducerGetCityByProvinsi,
   reducerGetLocations: reducerGetLocations,
   reducerFetchCounter: reducerFetchCounter,
+  reducerFetcLocationById: reducerFetcLocationById,
 });

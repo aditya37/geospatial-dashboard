@@ -29,6 +29,10 @@ const LocationWidget = (props) => {
           ) : (
             <>
               <li className="list-group-item">
+                <b>Id</b>{" "}
+                <span className="float-right">{data.location_id}</span>
+              </li>
+              <li className="list-group-item">
                 <b>Type</b>{" "}
                 <span className="float-right">{data.location_type}</span>
               </li>
@@ -39,6 +43,22 @@ const LocationWidget = (props) => {
               <li className="list-group-item">
                 <b>Last Modified</b>{" "}
                 <span className="float-right">{data.modified_at}</span>
+              </li>
+              <li className="list-group-item">
+                <b>With Geofencing</b>{" "}
+                <span className="float-right">{data.is_geofence == 1 ? "True" : "False"}</span>
+              </li>
+              <li className="list-group-item">
+                <b>Geofence Type</b>{" "}
+                <span className="float-right">{data.geofence_type}</span>
+              </li>
+              <li className="list-group-item">
+                <b>Geometry Type</b>{" "}
+                <span className="float-right">{data.geometry_type}</span>
+              </li>
+              <li className="list-group-item">
+                <b>Area</b>{" "}
+                <span className="float-right">{data.area}</span>
               </li>
             </>
           )}

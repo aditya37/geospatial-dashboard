@@ -7,6 +7,7 @@ import TabLocationDetail from "../../component/tabLocationDetail";
 import { useParams } from "react-router-dom";
 import dumyGetLocationById from "../../dumy_data_get_location_by_id";
 import { FetchLocationById } from "../../redux/action/fetchLocationById";
+
 const LocationDetail = (props) => {
   let { id, lat, long } = useParams();
   React.useEffect(async () => {
@@ -33,7 +34,10 @@ const LocationDetail = (props) => {
                 </div>
                 <div className="col-md-8">
                   <TabLocationDetail
+                    id={id}
                     basicInfoData={props.stateFetchLocationById.data}
+                    lat={lat}
+                    long={long}
                   />
                 </div>
               </div>

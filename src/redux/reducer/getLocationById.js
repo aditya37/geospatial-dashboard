@@ -18,6 +18,8 @@ export default (state = initState, action) => {
         isLoading: true,
       };
     case SUCCESS_FETCH_LOCATIONS_ID:
+      var cacheData = JSON.stringify(action.payload.data);
+      localStorage.setItem("geojson"+action.payload.data.location_id, cacheData);
       return {
         ...state,
         isLoading: false,

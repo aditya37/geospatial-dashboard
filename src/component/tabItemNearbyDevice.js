@@ -1,14 +1,18 @@
+import React, { useState, useEffect } from "react";
 import { MapContainer, TileLayer, GeoJSON, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { Form } from "react-bootstrap";
 
 const TabItemNearbyDevice = (props) => {
-  const ResizeMap = () => {
-    const map = useMap();
-    map._onResize();
-    map.invalidateSize()
-    return null;
-  };
+  const [map, setMap] = useState(null);
+  useEffect(() => {
+    if (map) {
+      setInterval(function () {
+        map.invalidateSize();
+      }, 100);
+    }
+  }, [map]);
+  
   return (
     <>
       <div className="row">
@@ -66,11 +70,9 @@ const TabItemNearbyDevice = (props) => {
             center={[-7.153669884759263, 111.90089106559752]}
             zoom={20}
             scrollWheelZoom={false}
+            whenCreated={setMap}
           >
-            <ResizeMap />
             <TileLayer
-              updateInterval={90}
-              updateWhenIdle="true"
               attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
               url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
             />

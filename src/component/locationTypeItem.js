@@ -3,14 +3,21 @@ const LocationTypeItems = (props) => {
   return (
     <>
       {datas.map((val, index) => {
-        return (
-          <option key={val.id} value={val.id}>
-            {val.type}
-          </option>
-        );
+        if (val.type == "ROAD") {
+          return (
+            <option key={val.id} value={val.id} selected={true}>
+              {val.type}
+            </option>
+          );
+        } else {
+          return (
+            <option key={val.id} value={val.id}>
+              {val.type}
+            </option>
+          );
+        }
       })}
     </>
   );
 };
 export default LocationTypeItems;
-

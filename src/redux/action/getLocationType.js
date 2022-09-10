@@ -25,7 +25,7 @@ export const getLocationType = () => (dispatch) => {
   return axios({
     method: "GET",
     baseURL: BASE_URL,
-    url: "/locations/types/",
+    url: "/geospatial/locations/types/",
     headers: {
       "Content-Type": "application/json",
     },

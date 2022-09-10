@@ -3,11 +3,19 @@ const CitySelectItem = (props) => {
   return (
     <>
       {datas.map((val, index) => {
-        return (
-          <option key={val.id} value={val.id}>
-            {val.nama}
-          </option>
-        );
+        if (val.nama == "Kabupaten Simeulue") {
+          return (
+            <option key={val.id} value={val.id} selected={true}>
+              {val.nama}
+            </option>
+          );
+        } else {
+          return (
+            <option key={val.id} value={val.id}>
+              {val.nama}
+            </option>
+          );
+        }
       })}
     </>
   );

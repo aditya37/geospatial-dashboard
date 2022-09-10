@@ -11,19 +11,22 @@ import { Link } from "react-router-dom";
 import LocationTypeItems from "../component/locationTypeItem.js";
 import ProvinceSelectItem from "../component/provinceSelectItem.js";
 import CitySelectItem from "../component/citySelectItem.js";
+import { RequestAddLocation } from "../redux/action/addLocation";
+import ReactLoading from "react-loading";
 
 const AddLocation = (props) => {
   const [getLocation, setLocation] = useState({
     geometry: "",
   });
   const [showGeofence, hideGoefence] = useState(false);
+
   // form state
   const [getFormState, setFormState] = useState({
     location_name: "",
     city_id: 0,
     province_id: 0,
     location_type: 0,
-    shape: "",
+    geojson: "",
     is_geofence: false,
     geofence_type: "",
     detect: [],
@@ -53,7 +56,7 @@ const AddLocation = (props) => {
   const _locationTypeOnChange = (e) => {
     setFormState({
       ...getFormState,
-      location_type: e.target.value,
+      location_type: parseInt(e.target.value),
     });
   };
 
@@ -63,16 +66,18 @@ const AddLocation = (props) => {
       props.ActionGetCityByProvinsi(e.target.value);
       setFormState({
         ...getFormState,
-        province_id: e.target.value,
+        province_id: parseInt(e.target.value),
       });
     }
   };
+
   const _selectCityOnchange = (e) => {
     setFormState({
       ...getFormState,
-      city_id: e.target.value,
+      city_id: parseInt(e.target.value),
     });
   };
+
   const _handleGeofenceDetect = (val) => {
     if (val.target.checked) {
       setFormState({
@@ -87,10 +92,20 @@ const AddLocation = (props) => {
       });
     }
   };
+
   const _handleFormSubmit = (e) => {
     e.preventDefault();
-
-    console.log(getFormState);
+    const requestPayload = {
+      location_name: getFormState.location_name,
+      city_id: getFormState.city_id,
+      province_id: getFormState.province_id,
+      location_type: getFormState.location_type,
+      geojson: getLocation.geometry,
+      is_geofence: getFormState.is_geofence,
+      geofence_type: getFormState.geofence_type,
+      detect: getFormState.detect,
+    };
+    props.ActionAddLocation(requestPayload);
   };
   return (
     <>
@@ -112,6 +127,27 @@ const AddLocation = (props) => {
                       <h5>Add Location</h5>
                     </div>
                     <div className="card-body">
+                      {props.stateAddLocation.isFailed == true ? (
+                        <div
+                          className="col-sm-12 alert alert-warning"
+                          role="alert"
+                        >
+                          <small>{props.stateAddLocation.message}</small>
+                        </div>
+                      ) : (
+                        ""
+                      )}
+                      {/* success message */}
+                      {props.stateAddLocation.isSuccess == true ? (
+                        <div
+                          className="col-sm-12 alert alert-primary"
+                          role="alert"
+                        >
+                          <small>{props.stateAddLocation.message}</small>
+                        </div>
+                      ) : (
+                        ""
+                      )}
                       {/* row for add location */}
                       <div className="row">
                         {/* colom form */}
@@ -185,9 +221,7 @@ const AddLocation = (props) => {
                               style={{
                                 marginTop: "10px",
                               }}
-                              value={JSON.stringify(
-                                getLocation.geometry.geometry
-                              )}
+                              value={JSON.stringify(getLocation.geometry)}
                               disabled
                             />
 
@@ -258,15 +292,41 @@ const AddLocation = (props) => {
                             {/* geofencing form end*/}
 
                             {/* button */}
-                            <Button
-                              className="col"
-                              type="submit"
-                              style={{
-                                marginTop: "10px",
-                              }}
-                            >
-                              Save
-                            </Button>
+                            {/* button save.. */}
+                            {props.stateAddLocation.isLoading == true ? (
+                              <Button
+                                className="col"
+                                type="submit"
+                                style={{
+                                  marginTop: "10px",
+                                }}
+                                disabled
+                              >
+                                <div
+                                  style={{
+                                    marginLeft: "125px",
+                                    marginRight: "125px",
+                                  }}
+                                >
+                                  <ReactLoading
+                                    type="spin"
+                                    color="black"
+                                    height={30}
+                                    width={30}
+                                  />
+                                </div>
+                              </Button>
+                            ) : (
+                              <Button
+                                className="col"
+                                type="submit"
+                                style={{
+                                  marginTop: "10px",
+                                }}
+                              >
+                                Save
+                              </Button>
+                            )}
                             {/* button */}
                             <Link
                               className="col col-md-12 btn btn-warning"
@@ -283,26 +343,10 @@ const AddLocation = (props) => {
                         <div className="col-md-8">
                           <EditableMap
                             height="60vh"
-                            onDeleted={(e) => {
-                              setLocation({
-                                ...getLocation,
-                                geometry: "",
-                              });
-                              setFormState({
-                                ...getFormState,
-                                shape: "",
-                              });
-                            }}
                             onCreated={(e) => {
                               var strJson = JSON.stringify(e.layer.toGeoJSON());
-                              var parseJson = JSON.parse(strJson);
-                              console.log(parseJson.geometry);
                               setLocation({
-                                geometry: e.layer.toGeoJSON(),
-                              });
-                              setFormState({
-                                ...getFormState,
-                                shape: parseJson.geometry,
+                                geometry: strJson,
                               });
                             }}
                           />
@@ -316,18 +360,19 @@ const AddLocation = (props) => {
             </div>
           </section>
         </div>
-        <Sidebar path="location"/>
+        <Sidebar path="location" />
       </div>
     </>
   );
 };
 // redux management
 const mapStateProps = (state) => {
-  console.log(state.reducerFetchProvinsi);
+  console.log(state.reducerAddLocation);
   return {
     locationTypeState: state.reducerGetLocationType,
     fetchProvinsiState: state.reducerFetchProvinsi,
     getCityByProvinsi: state.reducerGetCityByProvinsi,
+    stateAddLocation: state.reducerAddLocation,
   };
 };
 const mapDispatachToProps = (dispatch) => {
@@ -340,6 +385,9 @@ const mapDispatachToProps = (dispatch) => {
     },
     ActionGetCityByProvinsi: (id) => {
       dispatch(getCityByProvinsi(id));
+    },
+    ActionAddLocation: (request) => {
+      dispatch(RequestAddLocation(request));
     },
   };
 };

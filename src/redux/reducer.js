@@ -7,7 +7,7 @@ import reducerFetchCounter from "./reducer/reducer.fetchCounter";
 import reducerFetcLocationById from "./reducer/getLocationById";
 import reducerGetNearbyLocation from "./reducer/getNearbyLocation";
 import reducerAddLocation from "./reducer/addLocation";
-
+import reducerFetchGeofenceByType from "./reducer/fetchGeofenceByType";
 export default combineReducers({
   reducerGetLocationType: reducerGetLocationType,
   reducerFetchProvinsi: reducerFetchProvinsi,
@@ -17,4 +17,5 @@ export default combineReducers({
   reducerFetcLocationById: reducerFetcLocationById,
   reducerGetNearbyLocation: reducerGetNearbyLocation,
   reducerAddLocation: reducerAddLocation,
+  reducerFetchGeofenceByType: reducerFetchGeofenceByType,
 });

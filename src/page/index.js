@@ -6,6 +6,7 @@ import DetailLocation from "../page/locations/detail";
 import EditLocation from "../page/locations/editLocation";
 import LocationType from "../page/locationType";
 import SearchLocation from "../page/locations/searchLocation"
+import Monitoring from "../page/geofence/monitoring"
 export {
   Dashboard,
   AddLocation,
@@ -15,4 +16,5 @@ export {
   EditLocation,
   LocationType,
   SearchLocation,
+  Monitoring // geofence page
 };

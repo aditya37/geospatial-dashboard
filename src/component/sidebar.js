@@ -93,15 +93,41 @@ const sidebar = (props) => {
                 color: "#363740",
               }}
             />
-            <li class="nav-item">
+            <li className="nav-item">
               <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-globe"></i>
+                <i className="nav-icon fas fa-globe"></i>
                 <p>Geofencing</p>
               </a>
+              <ul className="nav nav-treeview">
+                <li className="nav-item">
+                  <a href="#" class="nav-link">
+                    <i class="fas fa-regular fa-ruler nav-icon"></i>
+                    <p>Area</p>
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a href="#" class="nav-link">
+                    <i class="fas fa-regular fa-ruler nav-icon"></i>
+                    <p>Realtime Chart</p>
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a href="#" class="nav-link">
+                    <i class="fas fa-regular fa-ruler nav-icon"></i>
+                    <p>Add Type</p>
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a href="#" class="nav-link">
+                    <i class="fas fa-regular fa-chart-area nav-icon"></i>
+                    <p>Monitoring</p>
+                  </a>
+                </li>
+              </ul>
             </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-globe"></i>
+            <li className="nav-item">
+              <a href="#" className="nav-link">
+                <i className="nav-icon fas fa-globe"></i>
                 <p>Geo Tracking</p>
               </a>
             </li>

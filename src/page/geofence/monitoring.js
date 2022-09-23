@@ -162,7 +162,7 @@ const Monitoring = (props) => {
                       {props.stateFetchGeofenceByType.data.length <= 0
                         ? ""
                         : props.stateFetchGeofenceByType.data.map((val) => {
-                            <GeoJSON data={JSON.parse(val.geojson)} />;
+                            return <GeoJSON data={JSON.parse(val.geojson)} />;
                           })}
                       {/* load current position of device */}
                       {data.point == null ? (

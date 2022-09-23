@@ -29,6 +29,7 @@ export const FetchGeofenceByType = (type) => (dispatch) => {
       });
     })
     .catch((err) => {
+      console.log(err)
       if (err.response) {
         if (err.response.status == 404) {
           dispatch({
@@ -44,6 +45,14 @@ export const FetchGeofenceByType = (type) => (dispatch) => {
               message: err.response.data.description,
             },
           });
+        }else if (err.response.status == 502) {
+          dispatch({
+            type: FAILED_FETCH_GEOFENCE_BY_TYPE,
+            payload: {
+              message: "Failed to connect server",
+            },
+          });
+
         }
       }
     });

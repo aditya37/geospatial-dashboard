@@ -27,7 +27,11 @@ export default (state = initState, action) => {
         data: action.payload.data,
       };
     case FAILED_FETCH_GEOFENCE_BY_TYPE:
-      return {};
+      return {
+        ...state,
+        isLoading: false,
+        isSuccess: false,
+      };
     default:
       return state;
   }

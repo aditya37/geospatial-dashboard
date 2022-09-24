@@ -24,7 +24,6 @@ export const FetchAvgDetectByArea = (area, interval) => (dispatch) => {
     },
   })
     .then((res) => {
-      console.log(res.data);
       dispatch({
         type: SUCCESS_FETCH_AVG_DETECT_BY_AREA,
         payload: {

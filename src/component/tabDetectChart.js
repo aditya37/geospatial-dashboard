@@ -65,7 +65,6 @@ const TabDetectChart = (props) => {
 };
 // redux
 const mapStateProps = (state) => {
-  console.log(state.reducerFetchAvgByArea)
   return {
     stateFetchAvgDetect: state.reducerFetchAvgByArea,
   };

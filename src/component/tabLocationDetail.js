@@ -64,7 +64,14 @@ const TabLocationDetail = (props) => {
 
           <Tabs className="mb-3" onSelect={handleSelectTab}>
             <Tab eventKey="detect_chart" title="Detect">
-              <TabDetectChart />
+              {/* validate location type
+                if tourist will show chart detect
+               */}
+              {props.basicInfoData.geofence_type == "tourist" ? (
+                <TabDetectChart geofence_id={props.basicInfoData.geofence_id} />
+              ) : (
+                "this location not type tourist"
+              )}
             </Tab>
             <Tab eventKey="nearby_location" title="Nearby Location">
               {props.stateNearbyLocation.isLoading == true ? (

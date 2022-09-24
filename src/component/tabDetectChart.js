@@ -1,3 +1,6 @@
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+import { FetchAvgDetectByArea } from "../redux/action/fetchAvgDetectByArea";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -19,43 +22,59 @@ ChartJS.register(
   Legend
 );
 
-const TabDetectChart = () => {
-  const labels = [
-    "2002-01-11",
-    "2002-01-12",
-    "2002-01-13",
-    "2002-01-12",
-    "2002-01-13",
-    "2002-01-12",
-    "2002-01-13"
-  ];
+const TabDetectChart = (props) => {
+  const { geofence_id } = props;
+  React.useEffect(async () => {
+    // get data from backend.
+    // will show data last 7 day from now
+    await props.ActionFetchAvgDetect(geofence_id, 7);
+  }, []);
+
   const data = {
-    labels,
+    labels: props.stateFetchAvgDetect.labels,
     datasets: [
       {
-        label: "Exit",
-        data: [1,85],
+        label: "enter",
+        data: props.stateFetchAvgDetect.enter,
         borderColor: "rgb(255, 99, 132)",
         backgroundColor: "rgba(255, 99, 132, 0.5)",
       },
       {
-        label: "Enter",
-        data: [33,70,45,11,11],
-        borderColor: "rgb(53, 162, 235)",
-        backgroundColor: "rgba(53, 162, 235, 0.5)",
+        label: "exit",
+        data: props.stateFetchAvgDetect.exit,
+        borderColor: "rgb(242, 42, 14)",
+        backgroundColor: "rgba(242, 42, 14, 0.5)",
       },
       {
-        label: "Inside",
-        data: [99,70],
-        borderColor: "rgb(206, 222, 27)",
-        backgroundColor: "rgba(206, 222, 27, 0.5)",
+        label: "inside",
+        data: props.stateFetchAvgDetect.inside,
+        borderColor: "rgb(212, 245, 49)",
+        backgroundColor: "rgb(212, 245, 49,0.5)",
       },
     ],
   };
   return (
     <>
-      <Line data={data}></Line>
+      {props.stateFetchAvgDetect.isLoading == true ? (
+        <small>{props.stateFetchAvgDetect.message}</small>
+      ) : (
+        <Line data={data} />
+      )}
     </>
   );
 };
-export default TabDetectChart;
+// redux
+const mapStateProps = (state) => {
+  console.log(state.reducerFetchAvgByArea)
+  return {
+    stateFetchAvgDetect: state.reducerFetchAvgByArea,
+  };
+};
+const mapDispatachToProps = (dispatch) => {
+  return {
+    ActionFetchAvgDetect: (area_id, interval) => {
+      dispatch(FetchAvgDetectByArea(area_id, interval));
+    },
+  };
+};
+export default connect(mapStateProps, mapDispatachToProps)(TabDetectChart);

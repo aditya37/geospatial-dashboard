@@ -7,6 +7,7 @@ import EditLocation from "../page/locations/editLocation";
 import LocationType from "../page/locationType";
 import SearchLocation from "../page/locations/searchLocation"
 import Monitoring from "../page/geofence/monitoring"
+import QAToolGeofence from "../page/qa"
 export {
   Dashboard,
   AddLocation,
@@ -16,5 +17,6 @@ export {
   EditLocation,
   LocationType,
   SearchLocation,
-  Monitoring // geofence page
+  Monitoring, // geofence page
+  QAToolGeofence // QaTool for geofence
 };

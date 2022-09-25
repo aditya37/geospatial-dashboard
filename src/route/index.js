@@ -9,6 +9,7 @@ import {
   LocationType,
   SearchLocation,
   Monitoring,
+  QAToolGeofence,
 } from "../page";
 import { Routes, Route } from "react-router-dom";
 import store from "../redux/store.js";
@@ -26,7 +27,11 @@ const MyRoute = () => {
         <Route path="/location/edit/:id" element={<EditLocation />} />
         <Route path="/location/type/" element={<LocationType />} />
         <Route path="/location/search/" element={<SearchLocation />} />
-        <Route path="/geofence/monitoring" element={<Monitoring/>}/>
+        <Route path="/geofence/monitoring" element={<Monitoring />} />
+        <Route
+          path="/qa/geofence/speed/:speed/device/:device_id/type/:geofence_type"
+          element={<QAToolGeofence />}
+        />
       </Routes>
     </Provider>
   );

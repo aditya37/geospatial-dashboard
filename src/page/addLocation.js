@@ -105,7 +105,6 @@ const AddLocation = (props) => {
       geofence_type: getFormState.geofence_type,
       detect: getFormState.detect,
     };
-    console.log(requestPayload)
     props.ActionAddLocation(requestPayload);
   };
   return (

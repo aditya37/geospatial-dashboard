@@ -52,8 +52,8 @@ const Monitoring = (props) => {
         isProcessing: false,
         point: j.point,
         device_id: j.device_id,
+        detect: j.detect,
       });
-      console.log(j);
     };
     sse.onerror = (err) => {
       setData({

@@ -112,16 +112,23 @@ const sidebar = (props) => {
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a href="#" class="nav-link">
+                  <Link to="/geofence/type" class="nav-link">
                     <i class="fas fa-regular fa-ruler nav-icon"></i>
                     <p>Add Type</p>
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item">
-                  <a href="#" class="nav-link">
-                    <i class="fas fa-regular fa-chart-area nav-icon"></i>
-                    <p>Monitoring</p>
-                  </a>
+                  {props.path == "monitoring" ? (
+                    <Link to="/geofence/monitoring" class="nav-link active">
+                      <i class="fas fa-regular fa-chart-area nav-icon"></i>
+                      <p>Monitoring</p>
+                    </Link>
+                  ) : (
+                    <Link to="/geofence/monitoring" class="nav-link">
+                      <i class="fas fa-regular fa-chart-area nav-icon"></i>
+                      <p>Monitoring</p>
+                    </Link>
+                  )}
                 </li>
               </ul>
             </li>

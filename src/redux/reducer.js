@@ -9,6 +9,7 @@ import reducerGetNearbyLocation from "./reducer/getNearbyLocation";
 import reducerAddLocation from "./reducer/addLocation";
 import reducerFetchGeofenceByType from "./reducer/fetchGeofenceByType";
 import reducerFetchAvgByArea from "./reducer/fetchAvgDetectByArea";
+import reducerAddGeofence from "./reducer/addGeofence";
 export default combineReducers({
   reducerGetLocationType: reducerGetLocationType,
   reducerFetchProvinsi: reducerFetchProvinsi,
@@ -20,4 +21,5 @@ export default combineReducers({
   reducerAddLocation: reducerAddLocation,
   reducerFetchGeofenceByType: reducerFetchGeofenceByType,
   reducerFetchAvgByArea: reducerFetchAvgByArea,
+  reducerAddGeofence: reducerAddGeofence,
 });

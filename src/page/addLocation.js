@@ -105,6 +105,7 @@ const AddLocation = (props) => {
       geofence_type: getFormState.geofence_type,
       detect: getFormState.detect,
     };
+	
     props.ActionAddLocation(requestPayload);
   };
   return (
@@ -137,6 +138,7 @@ const AddLocation = (props) => {
                       ) : (
                         ""
                       )}
+                      
                       {/* success message */}
                       {props.stateAddLocation.isSuccess == true ? (
                         <div

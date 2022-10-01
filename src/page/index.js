@@ -5,9 +5,10 @@ import GetLocations from "../page/locations";
 import DetailLocation from "../page/locations/detail";
 import EditLocation from "../page/locations/editLocation";
 import LocationType from "../page/locationType";
-import SearchLocation from "../page/locations/searchLocation"
-import Monitoring from "../page/geofence/monitoring"
-import QAToolGeofence from "../page/qa"
+import SearchLocation from "../page/locations/searchLocation";
+import Monitoring from "../page/geofence/monitoring";
+import QAToolGeofence from "../page/qa";
+import GetAllGeofenceArea from "../page/geofence";
 export {
   Dashboard,
   AddLocation,
@@ -18,5 +19,6 @@ export {
   LocationType,
   SearchLocation,
   Monitoring, // geofence page
-  QAToolGeofence // QaTool for geofence
+  QAToolGeofence, // QaTool for geofence
+  GetAllGeofenceArea,
 };

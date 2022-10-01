@@ -243,7 +243,6 @@ const Monitoring = (props) => {
 };
 // redux
 const mapStateProps = (state) => {
-  console.log(state.reducerFetchGeofenceByType);
   return {
     stateFetchGeofenceByType: state.reducerFetchGeofenceByType,
   };

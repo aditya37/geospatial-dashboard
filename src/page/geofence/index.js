@@ -8,6 +8,9 @@ import { MenuAboveTable, SelectItemLocation } from "../../component";
 import { fetchLocations } from "../../redux/action/fetchLocations";
 import { FetchLocationById } from "../../redux/action/fetchLocationById";
 import { AddGeofenceArea } from "../../redux/action/addGeofence";
+import { GetGeofenceType } from "../../redux/action/getGeofenceTypes";
+import { GetGofenceAreaByType } from "../../redux/action/getGeofenceAreaByType";
+import ColTableGeofenceArea from "./column_geofence_area";
 
 const GetAllGeofenceArea = (props) => {
   const [stateModal, setStateModal] = useState(false);
@@ -31,6 +34,8 @@ const GetAllGeofenceArea = (props) => {
   useEffect(async () => {
     // safe your laptop :)
     await props.ActionGetLocations();
+    await props.ActionGetGeofenceTypes();
+    await props.ActionGetGofenceAreaByType("tourist");
   }, []);
 
   // onChangeLocation...
@@ -78,6 +83,12 @@ const GetAllGeofenceArea = (props) => {
     console.log(JSON.stringify(addGeofence));
     props.ActionAddGeofence(JSON.stringify(addGeofence));
   };
+
+  // select geofence area by type...
+  const selectGeofenceType = (e) => {
+    props.ActionGetGofenceAreaByType(e.target.value);
+  };
+
   return (
     <>
       <div className="hold-transition layout-fixed layout-navbar-fixed layout-footer-fixed">
@@ -109,30 +120,30 @@ const GetAllGeofenceArea = (props) => {
                     <div className="card-body">
                       <div className="row">
                         {/* menu above table start */}
-                        <MenuAboveTable onClick={showModalAddGeofence} />
+                        {props.stateGetGeofenceTypes.isLoading == true ? (
+                          ""
+                        ) : (
+                          <MenuAboveTable
+                            onClick={showModalAddGeofence}
+                            onChange={selectGeofenceType}
+                            datas={props.stateGetGeofenceTypes.data}
+                          />
+                        )}
                         {/* menu above table stop */}
                         <DataTable
                           className="table"
-                          data={[
-                            {
-                              id: 1,
-                            },
-                          ]}
-                          columns={[
-                            {
-                              name: "Area name",
-                              selector: (row) => row.id,
-                            },
-                            {
-                              name: "Channel Name",
-                            },
-                            {
-                              name: "Type Name",
-                            },
-                            {
-                              name: "Action",
-                            },
-                          ]}
+                          progressPending={
+                            props.stateGetGeofenceAreaByType.isLoading == true
+                              ? true
+                              : false
+                          }
+                          data={
+                            props.stateGetGeofenceAreaByType.data == null
+                              ? []
+                              : props.stateGetGeofenceAreaByType.data
+                                  .geofence_areas
+                          }
+                          columns={ColTableGeofenceArea}
                           pagination
                           paginationComponentOptions={{
                             noRowsPerPage: true,
@@ -325,6 +336,8 @@ const mapStateProps = (state) => {
     stateFetchLocation: state.reducerGetLocations,
     stateFetchLocationById: state.reducerFetcLocationById,
     stateAddGeofence: state.reducerAddGeofence,
+    stateGetGeofenceTypes: state.reducerGetGeofenceTypes,
+    stateGetGeofenceAreaByType: state.reducerGetGeofenceAreaBytype,
   };
 };
 const mapDispatachToProps = (dispatch) => {
@@ -337,6 +350,12 @@ const mapDispatachToProps = (dispatch) => {
     },
     ActionAddGeofence: (payload) => {
       dispatch(AddGeofenceArea(payload));
+    },
+    ActionGetGeofenceTypes: () => {
+      dispatch(GetGeofenceType());
+    },
+    ActionGetGofenceAreaByType: (type) => {
+      dispatch(GetGofenceAreaByType(type));
     },
   };
 };

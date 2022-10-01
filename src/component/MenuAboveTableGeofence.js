@@ -1,6 +1,7 @@
 import { FormSelect, Button, Modal } from "react-bootstrap";
 const MenuAboveTable = (props) => {
   const { onChange, onClick } = props;
+  const data = props.datas || [];
   return (
     <div className="form-inline border-bottom  border-dark">
       <div className="input-group mb-2 mr-sm-2">
@@ -21,9 +22,13 @@ const MenuAboveTable = (props) => {
         </div>
         {/* geofence type */}
         <FormSelect onChange={onChange}>
-          <option>Tourist</option>
-          <option>Logistic</option>
-          <option>Attedance</option>
+          {data.map((v, i) => {
+            return (
+              <option key={v.id} value={v.type_name}>
+                {v.type_name}
+              </option>
+            );
+          })}
         </FormSelect>
       </div>
     </div>
